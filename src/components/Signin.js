@@ -1,22 +1,64 @@
 import styled from "styled-components";
+import { Link } from "react-router-dom"; //useHistory
+import { useState } from "react"; //useContext
+//import axios from "axios";
+//import UserContext from "../contexts/UserContext.js";
 
 export default function Signup() {
-  function toRegister() {
-    alert("hello");
+  //const history = useHistory();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [clicked, setClicked] = useState(false);
+  //const { setUserData } = useContext(UserContext);
+
+  function toLogin(event) {
+    event.preventDefault();
+    setClicked(true);
+    //const body = { email, password };
+
+    //const req = axios.post(`COLOCAR A URL AQUI`, body);
+
+    /*req.then((resp) => {
+      setUserData(resp.data);
+      localStorage.setItem("loginUser", JSON.stringify(resp.data));
+      history.pushState("/");
+    });
+
+    req.catch((error) => {
+      setEmail("");
+      setPassword("");
+      setClicked(false);
+      alert("alertar algo");
+    });*/
   }
+
   return (
     <Container>
       <Background></Background>
       <Holder>
-        <Logo>Login</Logo>
+        <Login>Login</Login>
         <ContainerForm>
-          <form onSubmit={toRegister}>
-            <Email type="email" placeholder="E-mail" />
-            <Password type="password" placeholder="Password" />
-            <RegisterButton type="submit">Login</RegisterButton>
+          <form onSubmit={toLogin}>
+            <Email
+              type="email"
+              placeholder="E-mail"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              disabled={clicked}
+            />
+            <Password
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              disabled={clicked}
+            />
+            <LoginButton type="submit">Login</LoginButton>
           </form>
         </ContainerForm>
-        <EnterNow>Are you new here?</EnterNow>
+        <Link to="/signup">
+          <RegisterRedirection>Are you new here?</RegisterRedirection>
+        </Link>
       </Holder>
     </Container>
   );
@@ -46,7 +88,7 @@ const Holder = styled.div`
   left: calc((100vw / 2) - 350px / 2);
 `;
 
-const Logo = styled.h1`
+const Login = styled.h1`
   color: #000000;
   font-size: 32px;
   line-height: 50px;
@@ -97,7 +139,7 @@ const Password = styled.input`
   }
 `;
 
-const RegisterButton = styled.button`
+const LoginButton = styled.button`
   width: 326px;
   height: 46px;
   border-radius: 5px;
@@ -111,7 +153,7 @@ const RegisterButton = styled.button`
   margin-bottom: 30px;
 `;
 
-const EnterNow = styled.h2`
+const RegisterRedirection = styled.h2`
   font-weight: bold;
   font-size: 18px;
   font-family: "Cuprum", sans-serif;

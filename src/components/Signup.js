@@ -1,26 +1,89 @@
 import styled from "styled-components";
+import { Link } from "react-router-dom";
+import { useState } from "react";
+//import axios from "axios";
 
 export default function Signup() {
-  function toRegister() {
-    alert("hello");
+  //const history = useHistory();
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [address, setAddress] = useState("");
+  const [password, setPassword] = useState("");
+  const [passwordConfirmation, setPasswordConfirmation] = useState("");
+  const [clicked, setClicked] = useState(false);
+
+  function toRegister(event) {
+    event.preventDefault();
+    setClicked(true);
+    //const body = { name, email, address, password, passwordConfirmation };
+
+    if (passwordConfirmation !== password) {
+      alert("Passwords do not match, please retype");
+    } else {
+      //const req = axios.post(`COLOCAR A URL AQUI`, body);
+      //req.then((resp) => {
+      //history.push("/");
+      //});
+      //req.catch((error) => {
+      //  setName("");
+      //setEmail("");
+      //setPassword("");
+      //setPasswordConfirmation("");
+      //setClicked(false);
+      //alert("Oh no! Something went wrong. Please try again");
+      //});
+    }
   }
   return (
     <Container>
+      <Background></Background>
       <Holder>
-        <Logo>Register</Logo>
+        <Register>Register</Register>
         <ContainerForm>
           <form onSubmit={toRegister}>
-            <Name type="text" placeholder="Name" />
-            <Email type="email" placeholder="E-mail" />
-            <Password type="password" placeholder="Password" />
+            <Name
+              type="text"
+              placeholder="Name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              disabled={clicked}
+            />
+            <Email
+              type="email"
+              placeholder="E-mail"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              disabled={clicked}
+            />
+            <Address
+              type="text"
+              placeholder="Address"
+              value={address}
+              onChange={(e) => setAddress(e.target.value)}
+              disabled={clicked}
+            />
+            <Password
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              disabled={clicked}
+            />
             <PasswordConfirmation
               type="password"
               placeholder="Confirm Password"
+              value={passwordConfirmation}
+              onChange={(e) => setPasswordConfirmation(e.target.value)}
+              disabled={clicked}
             />
-            <RegisterButton type="submit">Register</RegisterButton>
+            <RegisterButton type="submit" disabled={clicked}>
+              Register
+            </RegisterButton>
           </form>
         </ContainerForm>
-        <EnterNow>Have you bought from us before?</EnterNow>
+        <Link to="/signin">
+          <LoginRedirection>Have you bought from us before?</LoginRedirection>
+        </Link>
       </Holder>
     </Container>
   );
@@ -34,12 +97,24 @@ const Container = styled.div`
   background-color: #fff;
 `;
 
-const Holder = styled.div`
-  height: auto;
-  padding-top: calc(100vh / 6);
+const Background = styled.div`
+  height: 100vh;
+  width: 100vw;
+  background-image: url("https://images.pexels.com/photos/65718/pexels-photo-65718.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1");
+  background-repeat: no-repeat;
+  background-size: cover;
+  opacity: 0.4;
 `;
 
-const Logo = styled.h1`
+const Holder = styled.div`
+  height: auto;
+  z-index: 1;
+  position: fixed;
+  top: calc(100vh / 5);
+  left: calc((100vw / 2) - 350px / 2);
+`;
+
+const Register = styled.h1`
   color: #000000;
   font-size: 32px;
   line-height: 50px;
@@ -74,6 +149,23 @@ const Name = styled.input`
 `;
 
 const Email = styled.input`
+  width: 326px;
+  height: 58px;
+  border-radius: 5px;
+  border: none;
+  margin-bottom: 15px;
+  padding-left: 15px;
+  font-family: "Cuprum", sans-serif;
+  font-size: 20px;
+  background-color: #e2e2e2;
+  ::placeholder {
+    font-family: "Cuprum", sans-serif;
+    font-size: 20px;
+    color: #000000;
+  }
+`;
+
+const Address = styled.input`
   width: 326px;
   height: 58px;
   border-radius: 5px;
@@ -138,7 +230,7 @@ const RegisterButton = styled.button`
   margin-bottom: 30px;
 `;
 
-const EnterNow = styled.h2`
+const LoginRedirection = styled.h2`
   font-weight: bold;
   font-size: 18px;
   font-family: "Cuprum", sans-serif;
