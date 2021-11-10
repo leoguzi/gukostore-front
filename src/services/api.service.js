@@ -1,8 +1,8 @@
 import axios from 'axios';
-const URL = 'http://localhost:4000';
+const URL = 'https://gukostore.herokuapp.com';
 
 function fetchProducts() {
-    return axios.get(`${URL}/products`);
+  return axios.get(`${URL}/products`);
 }
 
 export { fetchProducts };
