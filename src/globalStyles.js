@@ -1,6 +1,8 @@
 const { createGlobalStyle } = require('styled-components');
 
-const colors = {};
+const colors = {
+	
+};
 
 const GlobalStyle = createGlobalStyle`
 /* http://meyerweb.com/eric/tools/css/reset/ 
@@ -34,6 +36,7 @@ footer, header, hgroup, menu, nav, section {
 	display: block;
 }
 body {
+	background-color: #FAFAFA;
 	line-height: 1;
     font-family: 'Raleway', sans-serif;
 	background-color: ${colors.purple}
