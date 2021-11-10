@@ -1,6 +1,11 @@
 const { createGlobalStyle } = require('styled-components');
 
-const colors = {};
+const colors = {
+  background: '#FAFAFA',
+  cardBackground: '#FFFFFF',
+  mainText: '#000000',
+  category: '#F9943B',
+};
 
 const GlobalStyle = createGlobalStyle`
 /* http://meyerweb.com/eric/tools/css/reset/ 
@@ -34,6 +39,7 @@ footer, header, hgroup, menu, nav, section {
 	display: block;
 }
 body {
+	background-color: ${colors.background};
 	line-height: 1;
     font-family: 'Raleway', sans-serif;
 	background-color: ${colors.purple}
@@ -62,6 +68,7 @@ strong{
 }
 a{
 	text-decoration: none;
+	color: ${colors.mainText};
 }
 `;
 
