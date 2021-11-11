@@ -5,4 +5,12 @@ function fetchProducts() {
   return axios.get(`${URL}/products`);
 }
 
-export { fetchProducts };
+function trySignup(user) {
+  return axios.post(`${URL}/signup`, user);
+}
+
+function trySignin(user) {
+  return axios.post(`${URL}/signin`, user);
+}
+
+export { fetchProducts, trySignup, trySignin };
