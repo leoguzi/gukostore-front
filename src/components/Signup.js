@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import axios from 'axios';
 import logo from '../images/gukologo.png';
+import { trySignup } from '../services/api.service';
 
 export default function Signup() {
   const navigate = useNavigate();
@@ -21,18 +21,18 @@ export default function Signup() {
     if (passwordConfirmation !== password) {
       alert('Passwords do not match, please retype');
     } else {
-      const req = axios.post(`https://gukostore.herokuapp.com/signup`, body);
-      req.then((resp) => {
-        navigate('/signin');
-      });
-      req.catch((error) => {
-        setName('');
-        setEmail('');
-        setPassword('');
-        setPasswordConfirmation('');
-        setClicked(false);
-        alert('Oh no! Something went wrong. Please try again');
-      });
+      trySignup(body)
+        .then(() => {
+          navigate('/signin');
+        })
+        .catch(() => {
+          setName('');
+          setEmail('');
+          setPassword('');
+          setPasswordConfirmation('');
+          setClicked(false);
+          alert('Oh no! Something went wrong. Please try again');
+        });
     }
   }
   return (

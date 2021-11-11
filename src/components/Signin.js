@@ -1,11 +1,11 @@
 import styled from 'styled-components';
 import { Link, useNavigate } from 'react-router-dom';
 import { useState, useContext } from 'react';
-import axios from 'axios';
 import UserContext from '../contexts/UserContext.js';
 import logo from '../images/gukologo.png';
+import { trySignin } from '../services/api.service';
 
-export default function Signup() {
+export default function Signin() {
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -17,20 +17,18 @@ export default function Signup() {
     setClicked(true);
     const body = { email, password };
 
-    const req = axios.post(`https://gukostore.herokuapp.com/signin`, body);
-
-    req.then((resp) => {
-      setUserData(resp.data);
-      localStorage.setItem('loginUser', JSON.stringify(resp.data));
-      navigate('/');
-    });
-
-    req.catch((error) => {
-      setEmail('');
-      setPassword('');
-      setClicked(false);
-      alert('Oh no! Something went wrong. Please try again');
-    });
+    trySignin(body)
+      .then((resp) => {
+        setUserData(resp.data);
+        localStorage.setItem('loginUser', JSON.stringify(resp.data));
+        navigate('/');
+      })
+      .catch(() => {
+        setEmail('');
+        setPassword('');
+        setClicked(false);
+        alert('Oh no! Something went wrong. Please try again');
+      });
   }
 
   return (
