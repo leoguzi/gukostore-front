@@ -18,8 +18,8 @@ export default function Product() {
       <div>
         {categories?.map((category, index) => {
           return (
-            <Link to={`/category/${category}`}>
-              <Category key={index}>{category}</Category>
+            <Link key={index} to={`/category/${category}`}>
+              <Category>{category}</Category>
             </Link>
           );
         })}
@@ -39,7 +39,10 @@ export default function Product() {
           <Price>{`$ ${(price / 100).toFixed(2)}`}</Price>
         </ProductInfo>
       </div>
-      <h1>{`${description}`}</h1>
+      <Description>
+        <h1>Overview</h1>
+        <span>{`${description}`}</span>
+      </Description>
     </ProductContainer>
   );
 }
@@ -51,16 +54,19 @@ const ProductContainer = styled.div`
   background-color: ${colors.cardBackground};
   display: flex;
   flex-direction: column;
+  margin-bottom: 50px;
   div:nth-child(2) {
     display: flex;
   }
   div:nth-child(3) {
     display: flex;
+    margin-bottom: 20px;
   }
   @media (max-width: 600px) {
     width: 100%;
     div:nth-child(3) {
       flex-direction: column;
+      margin-bottom: 10px;
     }
   }
 `;
@@ -109,6 +115,9 @@ const Price = styled.span`
   font-size: 26px;
   font-weight: bold;
   margin-bottom: 10px;
+  @media (max-width: 600px) {
+    margin-top: 20px;
+  }
 `;
 const ProductInfo = styled.div`
   width: 50%;
@@ -133,4 +142,19 @@ const Category = styled.span`
   border-radius: 15px;
   margin-bottom: 10px;
   background-color: ${colors.category};
+`;
+
+const Description = styled.div`
+  h1 {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  span {
+    display: inline-block;
+    width: 100%;
+    font-size: 18px;
+    line-height: 1.5;
+    text-align: justify;
+  }
 `;
