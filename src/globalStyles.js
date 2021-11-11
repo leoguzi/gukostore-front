@@ -1,7 +1,7 @@
 const { createGlobalStyle } = require('styled-components');
 
 const colors = {
-  background: '#FAFAFA',
+  background: '#F9F9F9',
   cardBackground: '#FFFFFF',
   mainText: '#000000',
   category: '#F9943B',
