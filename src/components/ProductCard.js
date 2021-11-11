@@ -2,11 +2,34 @@ import styled from 'styled-components';
 import { colors } from '../globalStyles';
 import { Link } from 'react-router-dom';
 import { BsCartPlus } from 'react-icons/bs';
+import { addToCart } from '../services/api.service';
 
 export default function ProductCard({ productData }) {
   const { id, name, price, images, categories } = productData;
+  console.log(productData);
 
-  function updateCart() {}
+  function updateCart(id, name) {
+    const selectedProduct = JSON.parse(sessionStorage.getItem('cart'));
+    if (selectedProduct) {
+      /*const qtd = selectedProduct.filter(i => {
+        i.id === id
+      }).length;*/
+      selectedProduct.push(id);
+      sessionStorage.setItem('cart', JSON.stringify(selectedProduct));
+    } else {
+      sessionStorage.setItem('cart', JSON.stringify([id]));
+    }
+
+    const body = {
+      id,
+    };
+
+    addToCart(body)
+      .then(alert(`The product ${name} is now in your basket.`))
+      .catch((error) => {
+        console.log(error);
+      });
+  }
 
   return (
     <StyledLink to={`/product/${id}`}>
@@ -19,7 +42,7 @@ export default function ProductCard({ productData }) {
           })}
         </CategoriesContainer>
         <Price>$ {(price / 100).toFixed(2)}</Price>
-        <CartIcon onClick={updateCart} />
+        <CartIcon onClick={() => updateCart(id, name)} />
       </Card>
     </StyledLink>
   );
