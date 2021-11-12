@@ -8,7 +8,7 @@ import UserContext from '../contexts/UserContext';
 
 export default function Header() {
   const [showMenu, setShowMenu] = useState(false);
-  const { userData, setUserData } = useContext(UserContext);
+  const { userData, setUserData, cart } = useContext(UserContext);
   const firstName = userData.name?.split(' ')[0];
 
   function logout() {
@@ -24,7 +24,7 @@ export default function Header() {
         </Link>
         {/*<SearchProduct />*/}
         <Link to="/cart">
-          <CartIcon />
+          {cart.length > 0 ? <FilledCartIcon /> : <CartIcon />}
         </Link>
         <div>
           {!showMenu ? (
@@ -95,6 +95,7 @@ const Content = styled.div`
 
 const Menu = styled.div`
   height: 50px;
+  font-size: 18px;
   border-radius: 50%;
   background-color: ${colors.category};
   span {
@@ -183,6 +184,14 @@ const CartIcon = styled(BsCart)`
   }
 `;
 
-const FilledCartIcon = styled(BsCart)`
+const FilledCartIcon = styled(BsCartFill)`
+  color: ${colors.background};
   font-size: 30px;
+  position: absolute;
+  right: 150px;
+  bottom: 14px;
+  @media (max-width: 600px) {
+    font-size: 20px;
+    right: 130px;
+    bottom: 20px;
 `;

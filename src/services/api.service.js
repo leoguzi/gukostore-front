@@ -1,9 +1,13 @@
 import axios from 'axios';
-//const URL = 'https://gukostore.herokuapp.com';
-const URL = 'http://localhost:4000';
+const URL = 'https://gukostore.herokuapp.com';
+//const URL = 'http://localhost:4000';
 
 function fetchProducts() {
   return axios.get(`${URL}/products`);
+}
+
+function fetchProduct(id) {
+  return axios.get(`${URL}/products/${id}`);
 }
 
 function trySignup(user) {
@@ -14,4 +18,4 @@ function trySignin(user) {
   return axios.post(`${URL}/signin`, user);
 }
 
-export { fetchProducts, trySignup, trySignin };
+export { fetchProducts, fetchProduct, trySignup, trySignin };
