@@ -86,4 +86,5 @@ const CartIcon = styled(BsCartPlus)`
   position: absolute;
   bottom: 15px;
   right: 15px;
+  z-index: 1;
 `;

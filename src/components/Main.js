@@ -10,9 +10,11 @@ export default function Main() {
   useEffect(() => {
     fetchProducts().then((r) => setProducts(r.data));
   }, []);
+
   return (
     <>
       <Header />
+      <Title>All Guitars</Title>
       <Container>
         {products.map((product, index) => {
           return <ProductCard key={index} productData={product} />;
@@ -24,9 +26,15 @@ export default function Main() {
     </>
   );
 }
+const Title = styled.h1`
+  max-width: 1000px;
+  font-weight: bold;
+  margin: 90px auto 0 auto;
+  font-size: 30px;
+`;
 
 const Container = styled.div`
-  margin: 90px auto 0 auto;
+  margin: 20px auto 0 auto;
   max-width: 1000px;
   display: flex;
   justify-content: space-between;

@@ -1,16 +1,20 @@
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io';
+import { BsCart, BsCartFill } from 'react-icons/bs';
 import { useContext, useState } from 'react';
-//import SearchProduct from './SearchProduct';
 import { colors } from '../globalStyles';
 import UserContext from '../contexts/UserContext';
 
 export default function Header() {
   const [showMenu, setShowMenu] = useState(false);
   const { userData, setUserData } = useContext(UserContext);
-  const firstName = userData.name.split(' ')[0];
-  function logout() {}
+  const firstName = userData.name?.split(' ')[0];
+
+  function logout() {
+    localStorage.removeItem('loginUser');
+    setUserData({});
+  }
 
   return (
     <>
@@ -19,6 +23,9 @@ export default function Header() {
           <h1>GukoStore</h1>
         </Link>
         {/*<SearchProduct />*/}
+        <Link to="/cart">
+          <CartIcon />
+        </Link>
         <div>
           {!showMenu ? (
             <ArrowDown onClick={() => setShowMenu(!showMenu)} />
@@ -32,15 +39,21 @@ export default function Header() {
       </Content>
       <Background display={showMenu} onClick={() => setShowMenu(!showMenu)} />
       <DropDown top={showMenu}>
-        <Link to="/signin">
-          <p>Login</p>
-        </Link>
-        <Link to="/orders">
-          <p>My Orders</p>
-        </Link>
-        <Link to="/" onClick={logout}>
-          <p>Logout</p>
-        </Link>
+        {userData.token && (
+          <Link to="/orders">
+            <p>My Orders</p>
+          </Link>
+        )}
+        {!userData.token && (
+          <Link to="/signin">
+            <p>Login</p>
+          </Link>
+        )}
+        {userData.token && (
+          <Link to="/" onClick={logout}>
+            <p>Logout</p>
+          </Link>
+        )}
       </DropDown>
     </>
   );
@@ -58,7 +71,8 @@ const Content = styled.div`
   top: 0;
   right: 0;
   left: 0;
-  z-index: 10;
+  z-index: 2;
+  box-shadow: 0px 0px 5px grey;
 
   h1 {
     color: ${colors.background};
@@ -71,6 +85,12 @@ const Content = styled.div`
     display: flex;
     align-items: center;
   }
+
+  @media (max-width: 600px) {
+    h1 {
+      font-size: 20px;
+    }
+  }
 `;
 
 const Menu = styled.div`
@@ -81,6 +101,9 @@ const Menu = styled.div`
     color: ${colors.background};
     font-weight: bold;
   }
+  @media (max-width: 600px) {
+    font-size: 14px;
+  }
 `;
 
 const ArrowDown = styled(IoIosArrowDown)`
@@ -88,6 +111,9 @@ const ArrowDown = styled(IoIosArrowDown)`
   font-size: 25px;
   margin-right: 8px;
   cursor: pointer;
+  @media (max-width: 600px) {
+    font-size: 20px;
+  }
 `;
 
 const ArrowUp = styled(IoIosArrowUp)`
@@ -95,6 +121,9 @@ const ArrowUp = styled(IoIosArrowUp)`
   font-size: 25px;
   margin-right: 8px;
   cursor: pointer;
+  @media (max-width: 600px) {
+    font-size: 20px;
+  }
 `;
 
 const Background = styled.div`
@@ -102,13 +131,12 @@ const Background = styled.div`
   height: 100vh;
   position: fixed;
   display: ${(props) => (props.display ? '' : 'none')};
-  z-index: 8;
+  z-index: 1;
 `;
 
 const DropDown = styled.div`
   top: ${(props) => (props.top ? '60px' : '-58px')};
   right: 0;
-  height: 109px;
   width: 120px;
   background-color: ${colors.category};
   position: fixed;
@@ -128,6 +156,7 @@ const DropDown = styled.div`
     font-size: 17px;
     line-height: 20px;
     letter-spacing: 0.05em;
+    margin-top: 5px;
 
     :hover {
       color: #b5b0b0;
@@ -135,9 +164,25 @@ const DropDown = styled.div`
     }
   }
 
-  p:nth-child(3) {
-    :hover {
-      color: #cc1f1f;
+  @media (max-width: 600px) {
+    p {
+      font-size: 14px;
     }
   }
+`;
+const CartIcon = styled(BsCart)`
+  color: ${colors.background};
+  font-size: 30px;
+  position: absolute;
+  right: 150px;
+  bottom: 14px;
+  @media (max-width: 600px) {
+    font-size: 20px;
+    right: 130px;
+    bottom: 20px;
+  }
+`;
+
+const FilledCartIcon = styled(BsCart)`
+  font-size: 30px;
 `;
