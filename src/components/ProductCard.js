@@ -1,30 +1,28 @@
 import styled from 'styled-components';
 import { colors } from '../globalStyles';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { BsCartPlus } from 'react-icons/bs';
+import { useContext } from 'react';
+import UserContext from '../contexts/UserContext.js';
 
 export default function ProductCard({ productData }) {
+  const navigate = useNavigate();
   const { id, name, price, images, categories } = productData;
-  console.log(productData);
+  const { setCart, cart } = useContext(UserContext);
 
-  function updateCart(id, name) {
-    let selectedProduct = JSON.parse(sessionStorage.getItem('cart'));
-    if (selectedProduct) {
-      selectedProduct.push({ id: id, quantity: 1 });
-      sessionStorage.setItem('cart', JSON.stringify(selectedProduct));
-      selectedProduct = Array.from(
-        selectedProduct.reduce(
-          (acc, { id, quantity }) => acc.set(id, (acc.get(id) || 0) + quantity),
-          new Map()
-        ),
-        ([id, quantity]) => ({ id, quantity })
-      );
+  function updateCart(id, name, price, quantity, e) {
+    e.preventDefault();
+    const newItem = { id, name, price, quantity };
 
-      console.log(selectedProduct);
-    } else {
-      sessionStorage.setItem('cart', JSON.stringify([{ id: id, quantity: 1 }]));
-    }
-    alert(`The product ${name} is now in your basket.`);
+    const filteredCart = cart.filter((item) => item.id === id);
+
+    filteredCart.length > 0
+      ? (filteredCart[0].quantity += quantity)
+      : setCart([...cart, newItem]);
+
+    sessionStorage.setItem('cart', JSON.stringify(cart));
+
+    navigate('/cart');
   }
 
   return (
@@ -38,7 +36,7 @@ export default function ProductCard({ productData }) {
           })}
         </CategoriesContainer>
         <Price>$ {(price / 100).toFixed(2)}</Price>
-        <CartIcon onClick={() => updateCart(id, name)} />
+        <CartIcon onClick={(e) => updateCart(id, name, price, 1, e)} />
       </Card>
     </StyledLink>
   );

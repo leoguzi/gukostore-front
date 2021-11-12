@@ -9,6 +9,7 @@ import React, { useState, useEffect } from 'react';
 
 function App() {
   const [userData, setUserData] = useState('');
+  const [cart, setCart] = useState([]);
 
   useEffect(() => {
     const loginUser = JSON.parse(localStorage.getItem('loginUser'));
@@ -18,14 +19,14 @@ function App() {
   }, []);
 
   return (
-    <UserContext.Provider value={{ userData, setUserData }}>
+    <UserContext.Provider value={{ userData, setUserData, cart, setCart }}>
       <BrowserRouter>
         <GlobalStyle />
         <Routes>
-          <Route path="/" element={<Main />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/signin" element={<Signin />} />
-          <Route path="/product/:id" element={<Product />}></Route>
+          <Route path='/' element={<Main />} />
+          <Route path='/signup' element={<Signup />} />
+          <Route path='/signin' element={<Signin />} />
+          <Route path='/product/:id' element={<Product />}></Route>
         </Routes>
       </BrowserRouter>
     </UserContext.Provider>
