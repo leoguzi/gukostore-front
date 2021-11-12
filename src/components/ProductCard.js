@@ -2,7 +2,6 @@ import styled from 'styled-components';
 import { colors } from '../globalStyles';
 import { Link } from 'react-router-dom';
 import { BsCartPlus } from 'react-icons/bs';
-import { addToCart } from '../services/api.service';
 
 export default function ProductCard({ productData }) {
   const { id, name, price, images, categories } = productData;
