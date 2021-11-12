@@ -9,7 +9,7 @@ import UserContext from '../contexts/UserContext';
 export default function Header() {
   const [showMenu, setShowMenu] = useState(false);
   const { userData, setUserData } = useContext(UserContext);
-
+  const firstName = userData.name.split(' ')[0];
   function logout() {}
 
   return (
@@ -26,17 +26,20 @@ export default function Header() {
             <ArrowUp onClick={() => setShowMenu(!showMenu)} />
           )}
           <Menu onClick={() => setShowMenu(!showMenu)}>
-            <span>{userData.token ? userData.user.username : 'Sign in'}</span>
+            <span>{userData.token ? firstName : 'User'}</span>
           </Menu>
         </div>
       </Content>
       <Background display={showMenu} onClick={() => setShowMenu(!showMenu)} />
       <DropDown top={showMenu}>
+        <Link to="/signin">
+          <p>Login</p>
+        </Link>
         <Link to="/orders">
           <p>My Orders</p>
         </Link>
         <Link to="/" onClick={logout}>
-          <p className="logout">Logout</p>
+          <p>Logout</p>
         </Link>
       </DropDown>
     </>
@@ -71,7 +74,6 @@ const Content = styled.div`
 `;
 
 const Menu = styled.div`
-  width: 50px;
   height: 50px;
   border-radius: 50%;
   background-color: ${colors.category};
@@ -83,14 +85,14 @@ const Menu = styled.div`
 
 const ArrowDown = styled(IoIosArrowDown)`
   color: ${colors.background};
-  font-size: 30px;
+  font-size: 25px;
   margin-right: 8px;
   cursor: pointer;
 `;
 
 const ArrowUp = styled(IoIosArrowUp)`
   color: ${colors.background};
-  font-size: 30px;
+  font-size: 25px;
   margin-right: 8px;
   cursor: pointer;
 `;
@@ -107,17 +109,17 @@ const DropDown = styled.div`
   top: ${(props) => (props.top ? '60px' : '-58px')};
   right: 0;
   height: 109px;
-  width: 130px;
+  width: 120px;
   background-color: ${colors.category};
   position: fixed;
-  border-bottom-left-radius: 20px;
+  border-bottom-left-radius: 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-around;
   padding: 10px 0;
   cursor: pointer;
-  z-index: 9;
+  z-index: 1;
   transition: top 150ms ease-in-out;
 
   p {
@@ -133,7 +135,7 @@ const DropDown = styled.div`
     }
   }
 
-  .logout {
+  p:nth-child(3) {
     :hover {
       color: #cc1f1f;
     }
