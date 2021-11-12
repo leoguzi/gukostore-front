@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { useEffect, useState } from 'react';
 import { fetchProducts } from '../services/api.service';
+import Header from './Header';
 import ProductCard from './ProductCard';
 
 export default function Main() {
@@ -10,14 +11,17 @@ export default function Main() {
     fetchProducts().then((r) => setProducts(r.data));
   }, []);
   return (
-    <Container>
-      {products.map((product, index) => {
-        return <ProductCard key={index} productData={product} />;
-      })}
-      <GhostDiv />
-      <GhostDiv />
-      <GhostDiv />
-    </Container>
+    <>
+      <Header />
+      <Container>
+        {products.map((product, index) => {
+          return <ProductCard key={index} productData={product} />;
+        })}
+        <GhostDiv />
+        <GhostDiv />
+        <GhostDiv />
+      </Container>
+    </>
   );
 }
 
