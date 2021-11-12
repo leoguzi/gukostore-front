@@ -9,15 +9,21 @@ export default function ProductCard({ productData }) {
   console.log(productData);
 
   function updateCart(id, name) {
-    const selectedProduct = JSON.parse(sessionStorage.getItem('cart'));
+    let selectedProduct = JSON.parse(sessionStorage.getItem('cart'));
     if (selectedProduct) {
-      /*const qtd = selectedProduct.filter(i => {
-        i.id === id
-      }).length;*/
-      selectedProduct.push(id);
+      selectedProduct.push({ id: id, quantity: 1 });
       sessionStorage.setItem('cart', JSON.stringify(selectedProduct));
+      selectedProduct = Array.from(
+        selectedProduct.reduce(
+          (acc, { id, quantity }) => acc.set(id, (acc.get(id) || 0) + quantity),
+          new Map()
+        ),
+        ([id, quantity]) => ({ id, quantity })
+      );
+
+      console.log(selectedProduct);
     } else {
-      sessionStorage.setItem('cart', JSON.stringify([id]));
+      sessionStorage.setItem('cart', JSON.stringify([{ id: id, quantity: 1 }]));
     }
 
     const body = {
@@ -31,8 +37,10 @@ export default function ProductCard({ productData }) {
       });
   }
 
+  //to={`/product/${id}`}
+
   return (
-    <StyledLink to={`/product/${id}`}>
+    <StyledLink to={`/`}>
       <Card>
         <Image src={images[0]} alt={name} />
         <Name>{name}</Name>
