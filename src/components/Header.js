@@ -194,4 +194,5 @@ const FilledCartIcon = styled(BsCartFill)`
     font-size: 20px;
     right: 130px;
     bottom: 20px;
+    }
 `;
