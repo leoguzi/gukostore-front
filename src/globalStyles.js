@@ -5,6 +5,8 @@ const colors = {
   cardBackground: '#FFFFFF',
   mainText: '#000000',
   category: '#F9943B',
+  red: '#F51720',
+  green: '#59981A',
 };
 
 const GlobalStyle = createGlobalStyle`

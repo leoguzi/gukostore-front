@@ -3,15 +3,44 @@ import { useParams, Link } from 'react-router-dom';
 import { fetchProduct } from '../services/api.service';
 import styled from 'styled-components';
 import { colors } from '../globalStyles';
+import { BsCartPlus } from 'react-icons/bs';
+import { AiFillMinusSquare, AiFillPlusSquare } from 'react-icons/ai';
 
 export default function Product() {
   const { id } = useParams();
+  const [discount, setDiscount] = useState(0);
   const [product, setProduct] = useState({});
   const [mainImage, setMainImage] = useState('');
-  useEffect(() => fetchProduct(id).then((r) => setProduct(r.data)), [id]);
-  const { name, price, description, categories, images } = product;
-  useEffect(() => setMainImage(images && images[0]), [images]);
+  const [quantity, setQuantity] = useState(1);
+  const [imagesList, setImagesList] = useState([]);
 
+  useEffect(() => {
+    fetchProduct(id).then((r) => setProduct(r.data));
+    setDiscount((Math.random() * 200).toFixed(2));
+  }, [id]);
+
+  const { name, description, categories, images } = product;
+  let { price } = product;
+  price = (price / 100).toFixed(2);
+
+  useEffect(() => {
+    setMainImage(images && images[0]);
+    setImagesList(
+      images?.map((image, index) => ({
+        url: image,
+        selected: index === 0 ? true : false,
+      }))
+    );
+  }, [images]);
+
+  function updateList(index) {
+    setMainImage(imagesList[index].url);
+    imagesList.forEach((image) => (image.selected = false));
+    imagesList[index].selected = true;
+    setImagesList([...imagesList]);
+  }
+
+  function updateCart(idProduct) {}
   return (
     <ProductContainer>
       <ProductTitle>{name}</ProductTitle>
@@ -26,17 +55,34 @@ export default function Product() {
       </div>
       <div>
         <ImgList>
-          {images?.map((image, index) => {
+          {imagesList?.map((image, index) => {
             return (
-              <li key={index} onClick={() => setMainImage(image)}>
-                <img src={image} alt={name} />
-              </li>
+              <StyledLi
+                selected={image.selected}
+                key={index}
+                onClick={() => updateList(index)}
+              >
+                <img src={image.url} alt={name} />
+              </StyledLi>
             );
           })}
         </ImgList>
         <MainImage src={mainImage} alt={name} />
         <ProductInfo>
-          <Price>{`$ ${(price / 100).toFixed(2)}`}</Price>
+          <OriginalPrice>{`$ ${price}`}</OriginalPrice>
+          <Price>{`$ ${(price - discount).toFixed(2)}`}</Price>
+          <Percentage>
+            {`You save ${((discount / price) * 100).toFixed(2)}%`}
+          </Percentage>
+          <StockInfo>In Stock & Ready to Ship</StockInfo>
+          <QuantityCounter>
+            <MinusIcon
+              onClick={() => setQuantity(quantity === 1 ? 1 : quantity - 1)}
+            />
+            <Quantity>{quantity}</Quantity>
+            <PlusIcon onClick={() => setQuantity(quantity + 1)} />
+            <CartIcon onClick={() => updateCart(id)} />
+          </QuantityCounter>
         </ProductInfo>
       </div>
       <Description>
@@ -55,6 +101,7 @@ const ProductContainer = styled.div`
   display: flex;
   flex-direction: column;
   margin-bottom: 50px;
+  border-radius: 5px;
   div:nth-child(2) {
     display: flex;
   }
@@ -79,13 +126,7 @@ const ProductTitle = styled.h1`
 
 const ImgList = styled.ul`
   width: 7%;
-  li {
-    padding: 3px;
-    margin-bottom: 3px;
-    display: flex;
-    justify-content: center;
-    border: 1px solid grey;
-  }
+
   img {
     margin: 10px 10px;
     width: 100%;
@@ -96,11 +137,19 @@ const ImgList = styled.ul`
     height: 90px;
     display: flex;
     margin-bottom: 5px;
+  }
+`;
 
-    li {
-      width: 70px;
-      margin-right: 5px;
-    }
+const StyledLi = styled.li`
+  padding: 3px;
+  margin-bottom: 3px;
+  display: flex;
+  justify-content: center;
+  border: ${(props) =>
+    props.selected ? `2px solid ${colors.category}` : '1px solid gray'};
+  @media (max-width: 600px) {
+    width: 70px;
+    margin-right: 5px;
   }
 `;
 
@@ -111,23 +160,55 @@ const MainImage = styled.img`
   }
 `;
 
+const OriginalPrice = styled.span`
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  text-decoration: line-through;
+  @media (max-width: 600px) {
+    margin: 20px 0 0 0;
+  }
+`;
+
 const Price = styled.span`
   font-size: 26px;
   font-weight: bold;
   margin-bottom: 10px;
+  color: ${colors.red};
   @media (max-width: 600px) {
-    margin-top: 20px;
+    margin: 10px 0 10px 0;
   }
 `;
+
+const Percentage = styled.span`
+  padding: 7px 9px;
+  background-color: ${colors.red};
+  color: ${colors.background};
+  margin-bottom: 10px;
+  @media (max-width: 600px) {
+    position: absolute;
+    right: 5px;
+    top: 18px;
+  }
+`;
+
 const ProductInfo = styled.div`
+  position: relative;
   width: 50%;
+  height: inherit;
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-
   @media (max-width: 600px) {
     align-items: flex-start;
+    width: 100%;
   }
+`;
+
+const StockInfo = styled.span`
+  font-weight: bold;
+  font-size: 20px;
+  color: ${colors.green};
 `;
 
 const Category = styled.span`
@@ -142,6 +223,51 @@ const Category = styled.span`
   border-radius: 15px;
   margin-bottom: 10px;
   background-color: ${colors.category};
+`;
+
+const QuantityCounter = styled.div`
+  position: absolute;
+  display: flex;
+  bottom: 10px;
+  left: 10px;
+  @media (max-width: 600px) {
+    font-size: 16px;
+    left: unset;
+    right: 5px;
+    bottom: 25px;
+  }
+`;
+
+const Quantity = styled.span`
+  font-size: 40px;
+  margin: 0 10px 0 10px;
+  @media (max-width: 600px) {
+    font-size: 30px;
+  }
+`;
+
+const MinusIcon = styled(AiFillMinusSquare)`
+  color: ${colors.red};
+  font-size: 40px;
+  @media (max-width: 600px) {
+    font-size: 30px;
+  }
+`;
+
+const PlusIcon = styled(AiFillPlusSquare)`
+  color: ${colors.green};
+  font-size: 40px;
+  @media (max-width: 600px) {
+    font-size: 30px;
+  }
+`;
+
+const CartIcon = styled(BsCartPlus)`
+  font-size: 40px;
+  margin-left: 10px;
+  @media (max-width: 600px) {
+    font-size: 30px;
+  }
 `;
 
 const Description = styled.div`
