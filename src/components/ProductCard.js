@@ -25,22 +25,11 @@ export default function ProductCard({ productData }) {
     } else {
       sessionStorage.setItem('cart', JSON.stringify([{ id: id, quantity: 1 }]));
     }
-
-    const body = {
-      id,
-    };
-
-    addToCart(body)
-      .then(alert(`The product ${name} is now in your basket.`))
-      .catch((error) => {
-        console.log(error);
-      });
+    alert(`The product ${name} is now in your basket.`);
   }
 
-  //to={`/product/${id}`}
-
   return (
-    <StyledLink to={`/`}>
+    <StyledLink to={`/product/${id}`}>
       <Card>
         <Image src={images[0]} alt={name} />
         <Name>{name}</Name>

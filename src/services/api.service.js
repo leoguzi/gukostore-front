@@ -5,8 +5,16 @@ function fetchProducts() {
   return axios.get(`${URL}/products`);
 }
 
-function addToCart(body) {
-  return axios.post(`${URL}/add-to-cart`, body);
+function fetchProduct(id) {
+  return axios.get(`${URL}/products/${id}`);
 }
 
-export { fetchProducts, addToCart };
+function trySignup(user) {
+  return axios.post(`${URL}/signup`, user);
+}
+
+function trySignin(user) {
+  return axios.post(`${URL}/signin`, user);
+}
+
+export { fetchProducts, fetchProduct, trySignup, trySignin };
