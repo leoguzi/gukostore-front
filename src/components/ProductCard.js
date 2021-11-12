@@ -1,12 +1,29 @@
 import styled from 'styled-components';
 import { colors } from '../globalStyles';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { BsCartPlus } from 'react-icons/bs';
+import { useContext } from 'react';
+import UserContext from '../contexts/UserContext.js';
 
 export default function ProductCard({ productData }) {
+  const navigate = useNavigate();
   const { id, name, price, images, categories } = productData;
+  const { setCart, cart } = useContext(UserContext);
 
-  function updateCart() {}
+  function updateCart(id, name, price, quantity, e) {
+    e.preventDefault();
+    const newItem = { id, name, price, quantity };
+
+    const filteredCart = cart.filter((item) => item.id === id);
+
+    filteredCart.length > 0
+      ? (filteredCart[0].quantity += quantity)
+      : setCart([...cart, newItem]);
+
+    sessionStorage.setItem('cart', JSON.stringify(cart));
+
+    navigate('/cart');
+  }
 
   return (
     <StyledLink to={`/product/${id}`}>
@@ -19,7 +36,7 @@ export default function ProductCard({ productData }) {
           })}
         </CategoriesContainer>
         <Price>$ {(price / 100).toFixed(2)}</Price>
-        <CartIcon onClick={updateCart} />
+        <CartIcon onClick={(e) => updateCart(id, name, price, 1, e)} />
       </Card>
     </StyledLink>
   );
@@ -86,4 +103,5 @@ const CartIcon = styled(BsCartPlus)`
   position: absolute;
   bottom: 15px;
   right: 15px;
+  z-index: 1;
 `;

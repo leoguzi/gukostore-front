@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import { colors } from '../globalStyles';
 import { BsCartPlus } from 'react-icons/bs';
 import { AiFillMinusSquare, AiFillPlusSquare } from 'react-icons/ai';
+import Header from './Header';
 
 export default function Product() {
   const { id } = useParams();
@@ -42,54 +43,57 @@ export default function Product() {
 
   function updateCart(idProduct) {}
   return (
-    <ProductContainer>
-      <ProductTitle>{name}</ProductTitle>
-      <div>
-        {categories?.map((category, index) => {
-          return (
-            <Link key={index} to={`/category/${category}`}>
-              <Category>{category}</Category>
-            </Link>
-          );
-        })}
-      </div>
-      <div>
-        <ImgList>
-          {imagesList?.map((image, index) => {
+    <>
+      <Header />
+      <ProductContainer>
+        <ProductTitle>{name}</ProductTitle>
+        <div>
+          {categories?.map((category, index) => {
             return (
-              <StyledLi
-                selected={image.selected}
-                key={index}
-                onClick={() => updateList(index)}
-              >
-                <img src={image.url} alt={name} />
-              </StyledLi>
+              <Link key={index} to={`/category/${category}`}>
+                <Category>{category}</Category>
+              </Link>
             );
           })}
-        </ImgList>
-        <MainImage src={mainImage} alt={name} />
-        <ProductInfo>
-          <OriginalPrice>{`$ ${price}`}</OriginalPrice>
-          <Price>{`$ ${(price - discount).toFixed(2)}`}</Price>
-          <Percentage>
-            {`You save ${((discount / price) * 100).toFixed(2)}%`}
-          </Percentage>
-          <StockInfo>In Stock & Ready to Ship</StockInfo>
-          <QuantityCounter>
-            <MinusIcon
-              onClick={() => setQuantity(quantity === 1 ? 1 : quantity - 1)}
-            />
-            <Quantity>{quantity}</Quantity>
-            <PlusIcon onClick={() => setQuantity(quantity + 1)} />
-            <CartIcon onClick={() => updateCart(id)} />
-          </QuantityCounter>
-        </ProductInfo>
-      </div>
-      <Description>
-        <h1>Overview</h1>
-        <span>{`${description}`}</span>
-      </Description>
-    </ProductContainer>
+        </div>
+        <div>
+          <ImgList>
+            {imagesList?.map((image, index) => {
+              return (
+                <StyledLi
+                  selected={image.selected}
+                  key={index}
+                  onClick={() => updateList(index)}
+                >
+                  <img src={image.url} alt={name} />
+                </StyledLi>
+              );
+            })}
+          </ImgList>
+          <MainImage src={mainImage} alt={name} />
+          <ProductInfo>
+            <OriginalPrice>{`$ ${price}`}</OriginalPrice>
+            <Price>{`$ ${(price - discount).toFixed(2)}`}</Price>
+            <Percentage>
+              {`You save ${((discount / price) * 100).toFixed(2)}%`}
+            </Percentage>
+            <StockInfo>In Stock & Ready to Ship</StockInfo>
+            <QuantityCounter>
+              <MinusIcon
+                onClick={() => setQuantity(quantity === 1 ? 1 : quantity - 1)}
+              />
+              <Quantity>{quantity}</Quantity>
+              <PlusIcon onClick={() => setQuantity(quantity + 1)} />
+              <CartIcon onClick={() => updateCart(id)} />
+            </QuantityCounter>
+          </ProductInfo>
+        </div>
+        <Description>
+          <h1>Overview</h1>
+          <span>{`${description}`}</span>
+        </Description>
+      </ProductContainer>
+    </>
   );
 }
 
