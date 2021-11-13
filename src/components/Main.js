@@ -3,6 +3,8 @@ import { useEffect, useState } from 'react';
 import { fetchProducts } from '../services/api.service';
 import Header from './Header';
 import ProductCard from './ProductCard';
+import Footer from './Footer';
+import ToTop from './ToTop';
 
 export default function Main() {
   const [products, setProducts] = useState([]);
@@ -23,6 +25,8 @@ export default function Main() {
         <GhostDiv />
         <GhostDiv />
       </Container>
+      <ToTop />
+      <Footer />
     </>
   );
 }
