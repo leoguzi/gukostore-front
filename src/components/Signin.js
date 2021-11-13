@@ -68,7 +68,7 @@ export default function Signin() {
   );
 }
 
-//----- Styled Components
+//----- Styled Components -----
 
 const Container = styled.div`
   height: 100vh;

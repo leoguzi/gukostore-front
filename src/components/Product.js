@@ -6,6 +6,7 @@ import { colors } from '../globalStyles';
 import { BsCartPlus } from 'react-icons/bs';
 import { AiFillMinusSquare, AiFillPlusSquare } from 'react-icons/ai';
 import Header from './Header';
+import Footer from './Footer';
 
 export default function Product() {
   const { id } = useParams();
@@ -93,6 +94,7 @@ export default function Product() {
           <span>{`${description}`}</span>
         </Description>
       </ProductContainer>
+      <Footer />
     </>
   );
 }
