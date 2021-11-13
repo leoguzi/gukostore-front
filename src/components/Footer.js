@@ -104,6 +104,16 @@ const ContainerBottomLeft = styled.div`
     height: 200px;
     margin-right: 20px;
   }
+
+  @media (max-width: 820px) {
+    h1 {
+      font-size: 14px;
+    }
+    img {
+      height: 110px;
+      margin-right: 20px;
+    }
+  }
 `;
 
 const ContainerBottomRight = styled.div`
@@ -124,5 +134,23 @@ const ContainerBottomRight = styled.div`
     font-family: 'Cuprum', sans-serif;
     font-size: 13px;
     color: #fff;
+  }
+
+  @media (max-width: 820px) {
+    h1 {
+      font-size: 13px;
+    }
+    h2 {
+      font-size: 10px;
+    }
+  }
+
+  @media (max-width: 550px) {
+    h1 {
+      font-size: 10px;
+    }
+    h2 {
+      font-size: 7px;
+    }
   }
 `;
