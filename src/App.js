@@ -6,6 +6,7 @@ import Signup from './components/Signup';
 import Signin from './components/Signin';
 import UserContext from './contexts/UserContext';
 import React, { useState, useEffect } from 'react';
+import GuitarLesson from './components/GuitarLesson';
 
 function App() {
   const [userData, setUserData] = useState('');
@@ -27,6 +28,7 @@ function App() {
           <Route path='/signup' element={<Signup />} />
           <Route path='/signin' element={<Signin />} />
           <Route path='/product/:id' element={<Product />}></Route>
+          <Route path='/guitar' element={<GuitarLesson />}></Route>
         </Routes>
       </BrowserRouter>
     </UserContext.Provider>

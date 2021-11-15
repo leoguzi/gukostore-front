@@ -43,7 +43,7 @@ footer, header, hgroup, menu, nav, section {
 body {
 	background-color: ${colors.background};
 	line-height: 1;
-    font-family: 'Raleway', sans-serif;
+    font-family: 'Cuprum', sans-serif;
 	background-color: ${colors.purple}
 }
 ol, ul {
@@ -64,6 +64,7 @@ table {
 
 * {
     box-sizing: border-box;
+	font-family: 'Cuprum', sans-serif;
 }
 strong{
 	font-weight: bold;
