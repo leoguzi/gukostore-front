@@ -35,4 +35,22 @@ const GuitarLessonContainer = styled.div`
     color: #fff;
     font-size: 25px;
   }
+
+  @media (max-width: 820px) {
+    width: 100%;
+    height: 500px;
+    border-radius: 0px;
+
+    h1 {
+      font-size: 30px;
+    }
+
+    h2 {
+      font-size: 20px;
+    }
+
+    img {
+      width: 100%;
+    }
+  }
 `;
