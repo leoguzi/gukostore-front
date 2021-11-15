@@ -121,6 +121,7 @@ export default function Cart() {
 
 const Container = styled.div`
   width: 1000px;
+  min-height: 450px;
   margin: 90px auto 0 auto;
   padding: 15px 15px;
   background-color: ${colors.cardBackground};
@@ -130,6 +131,7 @@ const Container = styled.div`
   border-radius: 8px;
   @media (max-width: 600px) {
     width: 100%;
+    min-height: 0;
   }
 `;
 
@@ -141,9 +143,13 @@ const Title = styled.h1`
 `;
 
 const EmptyCart = styled.span`
+  display: inline-block;
   font-size: 20px;
   font-weight: bold;
-  margin-bottom: 40px;
+  margin: 120px 0 120px 400px;
+  @media (max-width: 600px) {
+    margin: 0;
+  }
 `;
 
 const CartList = styled.ul`
