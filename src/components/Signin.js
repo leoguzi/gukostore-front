@@ -35,8 +35,8 @@ export default function Signin() {
     <Container>
       <Background></Background>
       <Header>
-        <StyledLink to='/'>
-          <img src={logo} alt='logo' />
+        <StyledLink to="/">
+          <img src={logo} alt="logo" />
         </StyledLink>
       </Header>
       <Holder>
@@ -44,23 +44,23 @@ export default function Signin() {
         <ContainerForm>
           <form onSubmit={toLogin}>
             <FormField
-              type='email'
-              placeholder='E-mail'
+              type="email"
+              placeholder="E-mail"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               disabled={clicked}
             />
             <FormField
-              type='password'
-              placeholder='Password'
+              type="password"
+              placeholder="Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               disabled={clicked}
             />
-            <LoginButton type='submit'>Login</LoginButton>
+            <LoginButton type="submit">Login</LoginButton>
           </form>
         </ContainerForm>
-        <Link to='/signup'>
+        <Link to="/signup">
           <RegisterRedirection>Are you new here?</RegisterRedirection>
         </Link>
       </Holder>

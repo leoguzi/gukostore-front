@@ -7,6 +7,7 @@ import Signin from './components/Signin';
 import UserContext from './contexts/UserContext';
 import React, { useState, useEffect } from 'react';
 import GuitarLesson from './components/GuitarLesson';
+import Cart from './components/Cart';
 
 function App() {
   const [userData, setUserData] = useState('');
@@ -17,6 +18,11 @@ function App() {
     if (loginUser) {
       setUserData(loginUser);
     }
+    const sessionCart = JSON.parse(localStorage.getItem('cart'));
+    if (sessionCart) {
+      console.log(sessionCart);
+      setCart(sessionCart);
+    }
   }, []);
 
   return (
@@ -24,11 +30,12 @@ function App() {
       <BrowserRouter>
         <GlobalStyle />
         <Routes>
-          <Route path='/' element={<Main />} />
-          <Route path='/signup' element={<Signup />} />
-          <Route path='/signin' element={<Signin />} />
-          <Route path='/product/:id' element={<Product />}></Route>
-          <Route path='/guitar' element={<GuitarLesson />}></Route>
+          <Route path="/" element={<Main />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/signin" element={<Signin />} />
+          <Route path="/product/:id" element={<Product />} />
+          <Route path="/cart" element={<Cart />} />
+          <Route path="/guitar" element={<GuitarLesson />} />
         </Routes>
       </BrowserRouter>
     </UserContext.Provider>

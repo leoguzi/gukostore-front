@@ -44,7 +44,6 @@ body {
 	background-color: ${colors.background};
 	line-height: 1;
     font-family: 'Cuprum', sans-serif;
-	background-color: ${colors.purple}
 }
 ol, ul {
 	list-style: none;

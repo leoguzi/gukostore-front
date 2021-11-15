@@ -49,8 +49,8 @@ export default function Product() {
     setImagesList([...imagesList]);
   }
 
-  function updateCart(id, name, price, quantity) {
-    const newItem = { id, name, price, quantity };
+  function updateCart(id, name, price, image, quantity) {
+    const newItem = { id, name, price, image, quantity };
 
     const filteredCart = cart.filter((item) => item.id === id);
 
@@ -104,8 +104,12 @@ export default function Product() {
               />
               <Quantity>{quantity}</Quantity>
               <PlusIcon onClick={() => setQuantity(quantity + 1)} />
-              <AddToCart onClick={() => updateCart(id, name, price, quantity)}>
-                <h1>Add to cart</h1>
+              <AddToCart
+                onClick={() =>
+                  updateCart(id, name, price, imagesList[0].url, quantity)
+                }
+              >
+                Add to cart
               </AddToCart>
             </QuantityCounter>
           </ProductInfo>
@@ -204,12 +208,12 @@ const Price = styled.span`
   margin-bottom: 10px;
   color: ${colors.red};
   @media (max-width: 600px) {
-    margin: 10px 0 10px 0;
+    margin: 15px 0 10px 0;
   }
 `;
 
 const Percentage = styled.span`
-  padding: 7px 9px;
+  padding: 5px 9px;
   background-color: ${colors.red};
   color: ${colors.background};
   margin-bottom: 10px;
@@ -264,8 +268,8 @@ const QuantityCounter = styled.div`
   @media (max-width: 600px) {
     font-size: 16px;
     left: unset;
-    right: 5px;
-    bottom: 25px;
+    right: 0px;
+    bottom: 20px;
   }
 `;
 
@@ -293,24 +297,19 @@ const PlusIcon = styled(AiFillPlusSquare)`
   }
 `;
 
-/*const CartIcon = styled(BsCartPlus)`
-  font-size: 40px;
-  margin-left: 10px;
-  @media (max-width: 600px) {
-    font-size: 30px;
-  }
-`;*/
-
 const AddToCart = styled.button`
   width: 150px;
   height: 60px;
-  background-color: #3b7d1a;
+  background-color: ${colors.green};
   border-radius: 5px;
   border: none;
   margin-left: 30px;
-  h1 {
-    font-size: 20px;
-    color: #fff;
+  font-size: 20px;
+  color: ${colors.background};
+  @media (max-width: 600px) {
+    font-size: 14px;
+    width: 80px;
+    height: 30px;
   }
 `;
 
@@ -320,6 +319,7 @@ const Description = styled.div`
     font-weight: bold;
     margin-bottom: 10px;
   }
+
   span {
     display: inline-block;
     width: 100%;
