@@ -7,8 +7,10 @@ import UserContext from '../contexts/UserContext.js';
 
 export default function ProductCard({ productData }) {
   const navigate = useNavigate();
-  const { id, name, price, images, categories } = productData;
+  const { id, name, images, categories } = productData;
+  let { price } = productData;
   const { setCart, cart } = useContext(UserContext);
+  price = (price / 100).toFixed(2);
 
   useEffect(() => {
     sessionStorage.setItem('cart', JSON.stringify(cart));
@@ -17,7 +19,6 @@ export default function ProductCard({ productData }) {
   function updateCart(id, name, price, image, quantity, e) {
     e.preventDefault();
     const newItem = { id, name, price, image, quantity };
-
     const filteredCart = cart.filter((item) => item.id === id);
 
     filteredCart.length > 0
@@ -36,7 +37,7 @@ export default function ProductCard({ productData }) {
             return <Category key={index}>{category}</Category>;
           })}
         </CategoriesContainer>
-        <Price>$ {(price / 100).toFixed(2)}</Price>
+        <Price>$ {price}</Price>
         <CartIcon
           onClick={(e) => updateCart(id, name, price, images[0], 1, e)}
         />
