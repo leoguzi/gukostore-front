@@ -49,8 +49,8 @@ export default function Product() {
     setImagesList([...imagesList]);
   }
 
-  function updateCart(id, name, price, quantity) {
-    const newItem = { id, name, price, quantity };
+  function updateCart(id, name, price, image, quantity) {
+    const newItem = { id, name, price, image, quantity };
 
     const filteredCart = cart.filter((item) => item.id === id);
 
@@ -104,7 +104,11 @@ export default function Product() {
               />
               <Quantity>{quantity}</Quantity>
               <PlusIcon onClick={() => setQuantity(quantity + 1)} />
-              <AddToCart onClick={() => updateCart(id, name, price, quantity)}>
+              <AddToCart
+                onClick={() =>
+                  updateCart(id, name, price, imagesList[0].url, quantity)
+                }
+              >
                 <h1>Add to cart</h1>
               </AddToCart>
             </QuantityCounter>
@@ -292,14 +296,6 @@ const PlusIcon = styled(AiFillPlusSquare)`
     font-size: 30px;
   }
 `;
-
-/*const CartIcon = styled(BsCartPlus)`
-  font-size: 40px;
-  margin-left: 10px;
-  @media (max-width: 600px) {
-    font-size: 30px;
-  }
-`;*/
 
 const AddToCart = styled.button`
   width: 150px;
