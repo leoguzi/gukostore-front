@@ -19,11 +19,11 @@ export default function Header() {
   return (
     <>
       <Content>
-        <Link to="/">
+        <Link to='/'>
           <h1>GukoStore</h1>
         </Link>
         {/*<SearchProduct />*/}
-        <Link to="/cart">
+        <Link to='/cart'>
           {cart.length > 0 ? <FilledCartIcon /> : <CartIcon />}
         </Link>
         <div>
@@ -40,17 +40,17 @@ export default function Header() {
       <Background display={showMenu} onClick={() => setShowMenu(!showMenu)} />
       <DropDown top={showMenu}>
         {userData.token && (
-          <Link to="/orders">
+          <Link to='/orders'>
             <p>My Orders</p>
           </Link>
         )}
         {!userData.token && (
-          <Link to="/signin">
+          <Link to='/signin'>
             <p>Login</p>
           </Link>
         )}
         {userData.token && (
-          <Link to="/" onClick={logout}>
+          <Link to='/' onClick={logout}>
             <p>Logout</p>
           </Link>
         )}
@@ -76,9 +76,10 @@ const Content = styled.div`
 
   h1 {
     color: ${colors.background};
-    font-weight: bold;
     font-size: 40px;
     line-height: 54px;
+    font-family: 'Russo One', sans-serif;
+    letter-spacing: 1px;
   }
 
   div {
