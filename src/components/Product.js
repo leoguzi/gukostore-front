@@ -1,12 +1,13 @@
-import { useEffect, useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useEffect, useState, useContext } from 'react';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import { fetchProduct } from '../services/api.service';
 import styled from 'styled-components';
 import { colors } from '../globalStyles';
-import { BsCartPlus } from 'react-icons/bs';
 import { AiFillMinusSquare, AiFillPlusSquare } from 'react-icons/ai';
 import Header from './Header';
 import Footer from './Footer';
+import GuitarLesson from './GuitarLesson';
+import UserContext from '../contexts/UserContext.js';
 
 export default function Product() {
   const { id } = useParams();
@@ -15,10 +16,16 @@ export default function Product() {
   const [mainImage, setMainImage] = useState('');
   const [quantity, setQuantity] = useState(1);
   const [imagesList, setImagesList] = useState([]);
+  const { setCart, cart } = useContext(UserContext);
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchProduct(id).then((r) => setProduct(r.data));
     setDiscount((Math.random() * 200).toFixed(2));
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
   }, [id]);
 
   const { name, description, categories, images } = product;
@@ -42,7 +49,19 @@ export default function Product() {
     setImagesList([...imagesList]);
   }
 
-  function updateCart(idProduct) {}
+  function updateCart(id, name, price, quantity) {
+    const newItem = { id, name, price, quantity };
+
+    const filteredCart = cart.filter((item) => item.id === id);
+
+    filteredCart.length > 0
+      ? (filteredCart[0].quantity += quantity)
+      : setCart([...cart, newItem]);
+
+    sessionStorage.setItem('cart', JSON.stringify(cart));
+
+    navigate('/cart');
+  }
   return (
     <>
       <Header />
@@ -85,7 +104,9 @@ export default function Product() {
               />
               <Quantity>{quantity}</Quantity>
               <PlusIcon onClick={() => setQuantity(quantity + 1)} />
-              <CartIcon onClick={() => updateCart(id)} />
+              <AddToCart onClick={() => updateCart(id, name, price, quantity)}>
+                <h1>Add to cart</h1>
+              </AddToCart>
             </QuantityCounter>
           </ProductInfo>
         </div>
@@ -94,6 +115,7 @@ export default function Product() {
           <span>{`${description}`}</span>
         </Description>
       </ProductContainer>
+      <GuitarLesson />
       <Footer />
     </>
   );
@@ -107,7 +129,7 @@ const ProductContainer = styled.div`
   display: flex;
   flex-direction: column;
   margin-bottom: 50px;
-  border-radius: 5px;
+  border-radius: 8px;
   div:nth-child(2) {
     display: flex;
   }
@@ -236,6 +258,9 @@ const QuantityCounter = styled.div`
   display: flex;
   bottom: 10px;
   left: 10px;
+  padding: 10px;
+  display: flex;
+  align-items: center;
   @media (max-width: 600px) {
     font-size: 16px;
     left: unset;
@@ -245,7 +270,7 @@ const QuantityCounter = styled.div`
 `;
 
 const Quantity = styled.span`
-  font-size: 40px;
+  font-size: 25px;
   margin: 0 10px 0 10px;
   @media (max-width: 600px) {
     font-size: 30px;
@@ -254,7 +279,7 @@ const Quantity = styled.span`
 
 const MinusIcon = styled(AiFillMinusSquare)`
   color: ${colors.red};
-  font-size: 40px;
+  font-size: 30px;
   @media (max-width: 600px) {
     font-size: 30px;
   }
@@ -262,17 +287,30 @@ const MinusIcon = styled(AiFillMinusSquare)`
 
 const PlusIcon = styled(AiFillPlusSquare)`
   color: ${colors.green};
-  font-size: 40px;
+  font-size: 30px;
   @media (max-width: 600px) {
     font-size: 30px;
   }
 `;
 
-const CartIcon = styled(BsCartPlus)`
+/*const CartIcon = styled(BsCartPlus)`
   font-size: 40px;
   margin-left: 10px;
   @media (max-width: 600px) {
     font-size: 30px;
+  }
+`;*/
+
+const AddToCart = styled.button`
+  width: 150px;
+  height: 60px;
+  background-color: #3b7d1a;
+  border-radius: 5px;
+  border: none;
+  margin-left: 30px;
+  h1 {
+    font-size: 20px;
+    color: #fff;
   }
 `;
 
