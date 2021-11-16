@@ -11,16 +11,15 @@ import Cart from './components/Cart';
 import Orders from './components/Orders';
 
 function App() {
+  const sessionCart = JSON.parse(sessionStorage.getItem('cart'));
+  const loginUser = JSON.parse(localStorage.getItem('loginUser'));
   const [userData, setUserData] = useState('');
   const [cart, setCart] = useState([]);
 
   useEffect(() => {
-    const sessionCart = JSON.parse(sessionStorage.getItem('cart'));
     if (sessionCart) {
-      console.log(sessionCart);
       setCart(sessionCart);
     }
-    const loginUser = JSON.parse(localStorage.getItem('loginUser'));
     if (loginUser) {
       setUserData(loginUser);
     }
