@@ -8,6 +8,7 @@ import UserContext from '../contexts/UserContext';
 
 export default function Header() {
   const [showMenu, setShowMenu] = useState(false);
+  const [showCategories, setShowCategories] = useState(false);
   const { userData, setUserData, cart } = useContext(UserContext);
   const firstName = userData.name?.split(' ')[0];
 
@@ -21,8 +22,43 @@ export default function Header() {
       <Content>
         <Link to="/">
           <h1>GukoStore</h1>
+          <CategoriesContainer>
+            <Menu onClick={() => setShowCategories(!showCategories)}>
+              <span>Shop by Category</span>
+            </Menu>
+            {!showCategories ? (
+              <ArrowDown onClick={() => setShowCategories(!showCategories)} />
+            ) : (
+              <ArrowUp onClick={() => setShowCategories(!showCategories)} />
+            )}
+          </CategoriesContainer>
+          <DropCategories top={showCategories}>
+            <Link to="/Stratocaster">
+              <p>Stratocaster</p>
+            </Link>
+            <Link to="/Telecaster">
+              <p>Telecaster</p>
+            </Link>
+            <Link to="/Les20%Paul">
+              <p>Les Paul</p>
+            </Link>
+            <Link to="/Flaying%20V">
+              <p>Flaying V</p>
+            </Link>
+            <Link to="/Double%20Cut">
+              <p>Double Cut</p>
+            </Link>
+            <Link to="/6%20Strings">
+              <p>6 Strings</p>
+            </Link>
+            <Link to="/7%20Strings">
+              <p>7 Strings</p>
+            </Link>
+            <Link to="/8%20Strings">
+              <p>8 Strings</p>
+            </Link>
+          </DropCategories>
         </Link>
-        {/*<SearchProduct />*/}
         <Link to="/cart">
           {cart.length > 0 ? <FilledCartIcon /> : <CartIcon />}
         </Link>
@@ -38,6 +74,10 @@ export default function Header() {
         </div>
       </Content>
       <Background display={showMenu} onClick={() => setShowMenu(!showMenu)} />
+      <Background
+        display={showCategories}
+        onClick={() => setShowCategories(!showCategories)}
+      />
       <DropDown top={showMenu}>
         {userData.token && (
           <Link to="/orders">
@@ -60,6 +100,7 @@ export default function Header() {
 }
 
 const Content = styled.div`
+  position: relative;
   background-color: ${colors.category};
   height: 60px;
   display: flex;
@@ -172,6 +213,7 @@ const DropDown = styled.div`
     }
   }
 `;
+
 const CartIcon = styled(BsCart)`
   color: ${colors.background};
   font-size: 30px;
@@ -195,5 +237,50 @@ const FilledCartIcon = styled(BsCartFill)`
     font-size: 20px;
     right: 110px;
     bottom: 20px;
+  }
+`;
+
+const CategoriesContainer = styled.div`
+  position: absolute;
+  z-index: 2;
+  left: 300px;
+  bottom: 4px;
+`;
+
+const DropCategories = styled.div`
+  top: ${(props) => (props.top ? '50px' : '-160px')};
+  left: 280px;
+  width: 165px;
+  background-color: ${colors.category};
+  position: fixed;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  padding: 10px 0;
+  cursor: pointer;
+  z-index: 0;
+  transition: top 150ms ease-in-out;
+
+  p {
+    color: ${colors.background};
+    font-weight: bold;
+    font-size: 17px;
+    line-height: 20px;
+    letter-spacing: 0.05em;
+    margin-top: 5px;
+
+    :hover {
+      color: #b5b0b0;
+      transition-duration: 0.2s;
+    }
+  }
+
+  @media (max-width: 600px) {
+    p {
+      font-size: 14px;
+    }
   }
 `;
