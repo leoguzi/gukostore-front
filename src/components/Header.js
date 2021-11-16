@@ -16,49 +16,49 @@ export default function Header() {
     localStorage.removeItem('loginUser');
     setUserData({});
   }
-
   return (
     <>
       <Content>
         <Link to="/">
           <h1>GukoStore</h1>
-          <CategoriesContainer>
-            <Menu onClick={() => setShowCategories(!showCategories)}>
-              <span>Shop by Category</span>
-            </Menu>
-            {!showCategories ? (
-              <ArrowDown onClick={() => setShowCategories(!showCategories)} />
-            ) : (
-              <ArrowUp onClick={() => setShowCategories(!showCategories)} />
-            )}
-          </CategoriesContainer>
-          <DropCategories top={showCategories}>
-            <Link to="/Stratocaster">
-              <p>Stratocaster</p>
-            </Link>
-            <Link to="/Telecaster">
-              <p>Telecaster</p>
-            </Link>
-            <Link to="/Les20%Paul">
-              <p>Les Paul</p>
-            </Link>
-            <Link to="/Flaying%20V">
-              <p>Flaying V</p>
-            </Link>
-            <Link to="/Double%20Cut">
-              <p>Double Cut</p>
-            </Link>
-            <Link to="/6%20Strings">
-              <p>6 Strings</p>
-            </Link>
-            <Link to="/7%20Strings">
-              <p>7 Strings</p>
-            </Link>
-            <Link to="/8%20Strings">
-              <p>8 Strings</p>
-            </Link>
-          </DropCategories>
         </Link>
+        <CategoriesContainer>
+          <Menu onClick={() => setShowCategories(!showCategories)}>
+            <span>Shop by Category</span>
+          </Menu>
+          {!showCategories ? (
+            <ArrowDown onClick={() => setShowCategories(!showCategories)} />
+          ) : (
+            <ArrowUp onClick={() => setShowCategories(!showCategories)} />
+          )}
+        </CategoriesContainer>
+        <DropCategories top={showCategories}>
+          <Link to="/products/category/Stratocaster">
+            <p>Stratocaster</p>
+          </Link>
+          <Link to="/products/category/Telecaster">
+            <p>Telecaster</p>
+          </Link>
+          <Link to="/products/category/Les%20Paul">
+            <p>Les Paul</p>
+          </Link>
+          <Link to="/products/category/Flaying%20V">
+            <p>Flaying V</p>
+          </Link>
+          <Link to="/products/category/Double%20Cut">
+            <p>Double Cut</p>
+          </Link>
+          <Link to="/products/category/6%20Strings">
+            <p>6 Strings</p>
+          </Link>
+          <Link to="/products/category/7%20Strings">
+            <p>7 Strings</p>
+          </Link>
+          <Link to="/products/category/8%20Strings">
+            <p>8 Strings</p>
+          </Link>
+        </DropCategories>
+
         <Link to="/cart">
           {cart.length > 0 ? <FilledCartIcon /> : <CartIcon />}
         </Link>
@@ -245,6 +245,9 @@ const CategoriesContainer = styled.div`
   z-index: 2;
   left: 300px;
   bottom: 4px;
+  @media (max-width: 600px) {
+    left: 155px;
+  }
 `;
 
 const DropCategories = styled.div`
@@ -261,7 +264,7 @@ const DropCategories = styled.div`
   justify-content: space-around;
   padding: 10px 0;
   cursor: pointer;
-  z-index: 0;
+  z-index: -1;
   transition: top 150ms ease-in-out;
 
   p {
@@ -279,6 +282,7 @@ const DropCategories = styled.div`
   }
 
   @media (max-width: 600px) {
+    left: 130px;
     p {
       font-size: 14px;
     }
