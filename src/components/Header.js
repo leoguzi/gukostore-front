@@ -25,12 +25,13 @@ export default function Header() {
         <CategoriesContainer>
           <Menu onClick={() => setShowCategories(!showCategories)}>
             <span>Shop by Category</span>
+
+            {!showCategories ? (
+              <ArrowDown onClick={() => setShowCategories(!showCategories)} />
+            ) : (
+              <ArrowUp onClick={() => setShowCategories(!showCategories)} />
+            )}
           </Menu>
-          {!showCategories ? (
-            <ArrowDown onClick={() => setShowCategories(!showCategories)} />
-          ) : (
-            <ArrowUp onClick={() => setShowCategories(!showCategories)} />
-          )}
         </CategoriesContainer>
         <DropCategories top={showCategories}>
           <Link to="/products/category/Stratocaster">
@@ -136,9 +137,8 @@ const Content = styled.div`
 `;
 
 const Menu = styled.div`
-  height: 50px;
+  height: 60px;
   font-size: 18px;
-  border-radius: 50%;
   background-color: ${colors.category};
   span {
     color: ${colors.background};
@@ -244,7 +244,6 @@ const CategoriesContainer = styled.div`
   position: absolute;
   z-index: 2;
   left: 300px;
-  bottom: 4px;
   @media (max-width: 600px) {
     left: 155px;
   }
@@ -264,13 +263,13 @@ const DropCategories = styled.div`
   justify-content: space-around;
   padding: 10px 0;
   cursor: pointer;
-  z-index: -1;
+  z-index: 1;
   transition: top 150ms ease-in-out;
 
   p {
     color: ${colors.background};
     font-weight: bold;
-    font-size: 17px;
+    font-size: 18px;
     line-height: 20px;
     letter-spacing: 0.05em;
     margin-top: 5px;
@@ -282,9 +281,10 @@ const DropCategories = styled.div`
   }
 
   @media (max-width: 600px) {
-    left: 130px;
+    width: 120px;
+    left: 150px;
     p {
-      font-size: 14px;
+      font-size: 16px;
     }
   }
 `;
