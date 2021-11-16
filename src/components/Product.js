@@ -73,7 +73,7 @@ export default function Product() {
         <div>
           {categories?.map((category, index) => {
             return (
-              <Link key={index} to={`/category/${category}`}>
+              <Link key={index} to={`/products/category/${category}`}>
                 <Category>{category}</Category>
               </Link>
             );

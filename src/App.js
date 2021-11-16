@@ -9,6 +9,7 @@ import React, { useState, useEffect } from 'react';
 import GuitarLesson from './components/GuitarLesson';
 import Cart from './components/Cart';
 import Orders from './components/Orders';
+import Category from './components/Category';
 
 function App() {
   const sessionCart = JSON.parse(sessionStorage.getItem('cart'));
@@ -34,6 +35,7 @@ function App() {
           <Route path="/signup" element={<Signup />} />
           <Route path="/signin" element={<Signin />} />
           <Route path="/product/:id" element={<Product />} />
+          <Route path="/products/category/:category" element={<Category />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/orders" element={<Orders />} />
           <Route path="/guitar" element={<GuitarLesson />} />

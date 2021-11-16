@@ -1,6 +1,5 @@
 import axios from 'axios';
 const URL = 'https://gukostore.herokuapp.com';
-//const URL = 'http://localhost:4000';
 
 function setConfig(token) {
   return {
@@ -33,6 +32,11 @@ function registerOrder(token, body) {
 function fetchUserOrders(token) {
   return axios.get(`${URL}/orders`, setConfig(token));
 }
+
+function fetchProductsByCategory(category) {
+  return axios.get(`${URL}/products/category/${category}`);
+}
+
 export {
   fetchProducts,
   fetchProduct,
@@ -40,4 +44,5 @@ export {
   trySignin,
   registerOrder,
   fetchUserOrders,
+  fetchProductsByCategory,
 };
