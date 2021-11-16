@@ -16,14 +16,16 @@ export default function ProductCard({ productData }) {
     sessionStorage.setItem('cart', JSON.stringify(cart));
   }, [cart]);
 
-  function updateCart(id, name, price, image, quantity, e) {
+  function updateCart(id, name, price, image, e) {
     e.preventDefault();
-    const newItem = { id, name, price, image, quantity };
     const filteredCart = cart.filter((item) => item.id === id);
-
-    filteredCart.length > 0
-      ? (filteredCart[0].quantity += quantity)
-      : setCart([...cart, newItem]);
+    if (filteredCart.length > 0) {
+      filteredCart[0].quantity += 1;
+      setCart([...cart]);
+    } else {
+      const newItem = { id, name, price, image, quantity: 1 };
+      setCart([...cart, newItem]);
+    }
     navigate('/cart');
   }
 
@@ -38,9 +40,7 @@ export default function ProductCard({ productData }) {
           })}
         </CategoriesContainer>
         <Price>$ {price}</Price>
-        <CartIcon
-          onClick={(e) => updateCart(id, name, price, images[0], 1, e)}
-        />
+        <CartIcon onClick={(e) => updateCart(id, name, price, images[0], e)} />
       </Card>
     </StyledLink>
   );

@@ -35,6 +35,9 @@ const Title = styled.h1`
   font-weight: bold;
   margin: 90px auto 0 auto;
   font-size: 30px;
+  @media (max-width: 600px) {
+    margin-left: 10px;
+  }
 `;
 
 const Container = styled.div`

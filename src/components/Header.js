@@ -19,11 +19,11 @@ export default function Header() {
   return (
     <>
       <Content>
-        <Link to='/'>
+        <Link to="/">
           <h1>GukoStore</h1>
         </Link>
         {/*<SearchProduct />*/}
-        <Link to='/cart'>
+        <Link to="/cart">
           {cart.length > 0 ? <FilledCartIcon /> : <CartIcon />}
         </Link>
         <div>
@@ -40,17 +40,17 @@ export default function Header() {
       <Background display={showMenu} onClick={() => setShowMenu(!showMenu)} />
       <DropDown top={showMenu}>
         {userData.token && (
-          <Link to='/orders'>
+          <Link to="/orders">
             <p>My Orders</p>
           </Link>
         )}
         {!userData.token && (
-          <Link to='/signin'>
+          <Link to="/signin">
             <p>Login</p>
           </Link>
         )}
         {userData.token && (
-          <Link to='/' onClick={logout}>
+          <Link to="/" onClick={logout}>
             <p>Logout</p>
           </Link>
         )}
@@ -180,7 +180,7 @@ const CartIcon = styled(BsCart)`
   bottom: 14px;
   @media (max-width: 600px) {
     font-size: 20px;
-    right: 130px;
+    right: 110px;
     bottom: 20px;
   }
 `;
@@ -193,7 +193,7 @@ const FilledCartIcon = styled(BsCartFill)`
   bottom: 14px;
   @media (max-width: 600px) {
     font-size: 20px;
-    right: 130px;
+    right: 110px;
     bottom: 20px;
   }
 `;
