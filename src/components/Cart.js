@@ -19,7 +19,6 @@ export default function Cart() {
     sessionStorage.setItem('cart', JSON.stringify(cart));
     let sum = 0;
     cart.forEach((item) => (sum += item.price * item.quantity));
-
     setTotal(sum.toFixed(2));
   }, [cart, total]);
 
@@ -57,7 +56,10 @@ export default function Cart() {
         };
       }),
     };
-    registerOrder(userData.token, body).then(navigate('/myorders'));
+    registerOrder(userData.token, body).then(() => {
+      navigate('/orders');
+      setCart([]);
+    });
   }
 
   return (
@@ -67,7 +69,7 @@ export default function Cart() {
         <Title>Your Cart</Title>
         <CartList>
           {cart.length !== 0 ? (
-            cart.map((item, index) => {
+            cart?.map((item, index) => {
               return (
                 <CartItem key={index}>
                   <div>

@@ -30,4 +30,14 @@ function registerOrder(token, body) {
   return axios.post(`${URL}/orders`, body, setConfig(token));
 }
 
-export { fetchProducts, fetchProduct, trySignup, trySignin, registerOrder };
+function fetchUserOrders(token) {
+  return axios.get(`${URL}/orders`, setConfig(token));
+}
+export {
+  fetchProducts,
+  fetchProduct,
+  trySignup,
+  trySignin,
+  registerOrder,
+  fetchUserOrders,
+};

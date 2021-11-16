@@ -42,26 +42,29 @@ export default function Product() {
     );
   }, [images]);
 
-  function updateList(index) {
+  useEffect(() => {
+    sessionStorage.setItem('cart', JSON.stringify(cart));
+  }, [cart]);
+
+  function updateImageList(index) {
     setMainImage(imagesList[index].url);
     imagesList.forEach((image) => (image.selected = false));
     imagesList[index].selected = true;
     setImagesList([...imagesList]);
   }
 
-  function updateCart(id, name, price, image, quantity) {
-    const newItem = { id, name, price, image, quantity };
-
+  function updateCart(id, name, price, image) {
     const filteredCart = cart.filter((item) => item.id === id);
-
-    filteredCart.length > 0
-      ? (filteredCart[0].quantity += quantity)
-      : setCart([...cart, newItem]);
-
-    sessionStorage.setItem('cart', JSON.stringify(cart));
-
+    if (filteredCart.length > 0) {
+      filteredCart[0].quantity += quantity;
+      setCart([...cart]);
+    } else {
+      const newItem = { id, name, price, image, quantity };
+      setCart([...cart, newItem]);
+    }
     navigate('/cart');
   }
+
   return (
     <>
       <Header />
@@ -83,7 +86,7 @@ export default function Product() {
                 <StyledLi
                   selected={image.selected}
                   key={index}
-                  onClick={() => updateList(index)}
+                  onClick={() => updateImageList(index)}
                 >
                   <img src={image.url} alt={name} />
                 </StyledLi>
@@ -105,9 +108,7 @@ export default function Product() {
               <Quantity>{quantity}</Quantity>
               <PlusIcon onClick={() => setQuantity(quantity + 1)} />
               <AddToCart
-                onClick={() =>
-                  updateCart(id, name, price, imagesList[0].url, quantity)
-                }
+                onClick={() => updateCart(id, name, price, imagesList[0].url)}
               >
                 Add to cart
               </AddToCart>

@@ -8,20 +8,20 @@ import UserContext from './contexts/UserContext';
 import React, { useState, useEffect } from 'react';
 import GuitarLesson from './components/GuitarLesson';
 import Cart from './components/Cart';
+import Orders from './components/Orders';
 
 function App() {
+  const sessionCart = JSON.parse(sessionStorage.getItem('cart'));
+  const loginUser = JSON.parse(localStorage.getItem('loginUser'));
   const [userData, setUserData] = useState('');
   const [cart, setCart] = useState([]);
 
   useEffect(() => {
-    const loginUser = JSON.parse(localStorage.getItem('loginUser'));
+    if (sessionCart) {
+      setCart(sessionCart);
+    }
     if (loginUser) {
       setUserData(loginUser);
-    }
-    const sessionCart = JSON.parse(localStorage.getItem('cart'));
-    if (sessionCart) {
-      console.log(sessionCart);
-      setCart(sessionCart);
     }
   }, []);
 
@@ -35,6 +35,7 @@ function App() {
           <Route path="/signin" element={<Signin />} />
           <Route path="/product/:id" element={<Product />} />
           <Route path="/cart" element={<Cart />} />
+          <Route path="/orders" element={<Orders />} />
           <Route path="/guitar" element={<GuitarLesson />} />
         </Routes>
       </BrowserRouter>
